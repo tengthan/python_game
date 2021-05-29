@@ -1,5 +1,7 @@
-from soldiers import Archer, Knight, Scout, Spearmen
+from soldiers import Archer, Knight, Scout, Spearmen, Soldier
+from resource import Resource
 import game
+import math 
 
 class Player:
 
@@ -24,16 +26,65 @@ class Player:
             self.do_recruit(Knight,map)
         elif user_input.lower() == 't':
             self.do_recruit(Scout,map)
+        elif user_input.lower() == "dis":
+            map.display_map()
+            return self.recruit(map)
+        elif user_input.lower() == "pris":
+            game.Game.display_price()
+            return self.recruit(map)
+        elif user_input.lower() == "quit":
+            quit(0)
         elif user_input.lower() != 'no':
             print("Sorry, invalid input. Try again.")
             self.recruit(map)
 
     def move_armies(self,map):
-        print("===Player X's Stage: Move Armies===")
+        print(f"===Player {self.index + 1}'s Stage: Move Armies===")
         if not self.armies:
             return print("No Army to Move: next turn.")
         map.display_map()
         user_input = input("k Enter four integers as a format ‘x0 y0 x1 y1’ to represent move unit from (x0, y0) to (x1, y1) or 'NO’ to end this turn.\n")
+        if user_input.lower() == "dis":
+            map.display_map()
+            return self.move_armies(map)
+        elif user_input.lower() == "pris":
+            game.Game.display_price()
+            return self.move_armies(map)
+        elif user_input.lower() == "quit":
+            quit(0)
+        elif user_input.lower() == "no":
+            return "not_move"
+        try:
+            user_input = [int(i) for i in user_input.split()]
+        except ValueError:
+            user_input = []
+        if len(user_input) != 4:
+            print("Invalid move. Try again.")
+            return self.move_armies(map)
+        print(tuple(user_input[2:2]))
+        self.do_move(
+            tuple(user_input[:2]),
+            tuple(user_input[2:]),
+            map
+        )
+
+    def do_move(self,start_loc, dest, map):
+        thing_at = map.thing_at[start_loc]
+        if not isinstance(thing_at, Soldier):
+            print("Invalid move. Try again.")
+            return self.move_armies(map)
+        dest_x, dest_y = dest 
+        if dest_x < 0 or dest_x > map.width - 1 or dest_y < 0 or dest_y > map.height - 1:
+            print("Invalid move. Try again.")
+            return self.move_armies(map)
+        if start_loc == dest:
+            print("Invalid move. Try again.")
+            return self.move_armies(map)
+        
+        thing_at.move(dest,map)
+
+    def all_moved(self):
+        return len([s for s in self.armies if s.moved_this_turn]) == len(self.armies)
 
     def do_recruit(self,type_of_soldier,map):
         user_input = input(f"You want to recruit a {type_of_soldier.__name__}. Enter two integers as format ‘x y’ to place your army.\n")
@@ -67,6 +118,7 @@ class Player:
 
         map.thing_at[user_input] = new_soldier
         new_soldier.player_index = self.index
+        new_soldier.player = self
         self.armies.append(new_soldier)
 
     def display_asset(self):

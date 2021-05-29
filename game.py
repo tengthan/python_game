@@ -38,12 +38,20 @@ Scout (T) - 1W, 1F, 1G""")
         print("enter PRIS to display the price list\n")
         while True:
             print(f"- Year {self.year}")
-            self.main_loop()
+            self.do_this_turn() #first player's turn
+            self.do_this_turn() #second player's turn
+            self.year += 1
 
 
-    def main_loop(self):
+    def do_this_turn(self):
         print(f"+++Player {self.current_turn + 1}'s Stage: Recruit Armies+++")
         self.current_player().display_asset()
         if self.current_player().can_recruit():
             self.current_player().recruit(self.map)
-        self.current_player().move_armies(self.map)
+        while not self.current_player().all_moved():
+            if self.current_player().move_armies(self.map) == "not_move":
+                break
+        for soldier in self.current_player().armies:
+            soldier.moved_this_turn = False
+        self.next_player()
+        
