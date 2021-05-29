@@ -19,7 +19,7 @@ class Resource:
         return self.type == o.type
     
     def display(self):
-        return "WW"
+        return "~~"
 
 
 class Food(Resource):
@@ -41,4 +41,4 @@ class Wood(Resource):
         Resource.__init__(self,"wood")
 
     def display(self):
-        return "FF"
+        return "WW"

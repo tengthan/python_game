@@ -39,6 +39,8 @@ Scout (T) - 1W, 1F, 1G""")
         while True:
             print(f"- Year {self.year}")
             self.main_loop()
+            self.main_loop()
+            self.year += 1
 
 
     def main_loop(self):
@@ -46,4 +48,10 @@ Scout (T) - 1W, 1F, 1G""")
         self.current_player().display_asset()
         if self.current_player().can_recruit():
             self.current_player().recruit(self.map)
-        self.current_player().move_armies(self.map)
+        while not self.current_player().all_moved():
+            if self.current_player().move_armies(self.map) == "not_move":
+                break
+        for soldier in self.current_player().armies:
+            soldier.moved_this_turn = False
+        self.next_player()
+        
