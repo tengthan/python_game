@@ -61,4 +61,5 @@ class Map:
             print("|")
         print(" Y+",end="")
         for x in range(self.width):
-            print("--".format(x),end="+\n" if x == self.width - 1 else "-")
+            print("--".format(x),end="+\n" if x == self.width - 1 else "-")  
+                                                                             
