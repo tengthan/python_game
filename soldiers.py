@@ -17,15 +17,6 @@ class Soldier:
 
     def is_scout(self):
         return self.type == "scout"
-
-    def move(self,direction,steps = 1):
-        if not self.is_scout() and steps >1: 
-            print("do nothing")
-            return 
-        elif self.is_scout() and steps > 2:
-            return 
-        for step in steps:
-           self.location=(self.location[0]+direction[0],self.location[1]+direction[1])
     
     def cost(self):
         (0,0,0)
