@@ -55,7 +55,7 @@ Scout (T) - 1W, 1F, 1G""")
     def do_this_turn(self):
         print(f"+++Player {self.current_turn + 1}'s Stage: Recruit Armies+++")
         self.current_player().display_asset()
-        if self.current_player().can_recruit():
+        while self.current_player().can_recruit():
             self.current_player().recruit(self.map)
         while not self.current_player().all_moved():
             if self.current_player().move_armies(self.map) == "not_move":

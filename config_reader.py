@@ -13,8 +13,12 @@ class ConfigReader:
 
     file_content=open(filepath,"r").readlines()
     
-    line = file_content[0].split()[1].split('x')
+    
     try:    
+        line = file_content[0].split()#[1].split('x')
+        if not len(line) == 2:
+            raise SyntaxError()
+        line = line[1].split('x')
         self.map_size = [e_int(i) for i in line]
     except:
         raise SyntaxError("Invalid Configuration File: frame should be in format widthxheight!")
