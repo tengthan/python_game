@@ -16,25 +16,25 @@ class Player:
         if not map.can_place_army(self):
             return print("No place to recruit new armies.")
         user_input = input("Which type of army to recruit, (enter) ‘S’, ‘A’, ‘K’, or ‘T’? Enter ‘NO’ to end this stage.\n")
-        if user_input.lower() == 'quit':
+        if user_input == 'QUIT':
             quit(0)
-        elif user_input.lower() == 's':
+        elif user_input == 'S':
             self.do_recruit(Spearmen,map)
-        elif user_input.lower() == 'a':
+        elif user_input == 'A':
             self.do_recruit(Archer,map)
-        elif user_input.lower() == 'k':
+        elif user_input == 'K':
             self.do_recruit(Knight,map)
-        elif user_input.lower() == 't':
+        elif user_input == 'T':
             self.do_recruit(Scout,map)
-        elif user_input.lower() == "dis":
+        elif user_input == "DIS":
             map.display_map()
             return self.recruit(map)
-        elif user_input.lower() == "pris":
+        elif user_input == "PRIS":
             game.Game.display_price()
             return self.recruit(map)
-        elif user_input.lower() == "quit":
+        elif user_input == "QUIT":
             quit(0)
-        elif user_input.lower() != 'no':
+        elif user_input != 'NO’':
             print("Sorry, invalid input. Try again.")
             self.recruit(map)
 
@@ -44,15 +44,15 @@ class Player:
             return print("No Army to Move: next turn.")
         map.display_map()
         user_input = input("k Enter four integers as a format ‘x0 y0 x1 y1’ to represent move unit from (x0, y0) to (x1, y1) or 'NO’ to end this turn.\n")
-        if user_input.lower() == "dis":
+        if user_input == "DIS":
             map.display_map()
             return self.move_armies(map)
-        elif user_input.lower() == "pris":
+        elif user_input == "PRIS":
             game.Game.display_price()
             return self.move_armies(map)
-        elif user_input.lower() == "quit":
+        elif user_input == "QUIT":
             quit(0)
-        elif user_input.lower() == "no":
+        elif user_input == "NO’":
             return "not_move"
         try:
             user_input = [int(i) for i in user_input.split()]
@@ -88,13 +88,13 @@ class Player:
 
     def do_recruit(self,type_of_soldier,map):
         user_input = input(f"You want to recruit a {type_of_soldier.__name__}. Enter two integers as format ‘x y’ to place your army.\n")
-        if user_input.lower() == "dis":
+        if user_input == "DIS":
             map.display_map()
             return self.do_recruit(type_of_soldier,map)
-        elif user_input.lower() == "pris":
+        elif user_input == "PRIS":
             game.Game.display_price()
             return self.do_recruit(type_of_soldier,map)
-        elif user_input.lower() == 'quit':
+        elif user_input == 'QUIT':
             quit(0)
         try:
             user_input = [int(i) for i in user_input.split(" ")]
@@ -127,4 +127,4 @@ class Player:
     def can_recruit(self):
         return (self.wood * self.food) or \
             (self.wood * self.gold) or \
-            (self.food * self.gold) 
+            (self.food * self.gold)  
