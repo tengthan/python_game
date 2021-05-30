@@ -1,5 +1,10 @@
 from resource import Resource, Gold, Food, Wood
 import math
+
+class Victory(Exception):
+    def __init__(self, soldier):
+        self.soldier = soldier
+
 class Soldier:
     def __init__(self,type,init_location) -> None:
         self.type=type
@@ -51,7 +56,9 @@ class Soldier:
     def actual_move(self, direction, map):
         new_location = (self.location[0] + direction[0], self.location[1] + direction[1])
         thing_at_dest = map.thing_at.get(new_location)
-        if not thing_at_dest:
+        if new_location == self.player.opponent.home_base:
+            raise Victory(self)
+        elif not thing_at_dest:
             self.update_location(new_location,map)
         elif isinstance(thing_at_dest,Soldier):
             if (self.fight(thing_at_dest) < 0):
