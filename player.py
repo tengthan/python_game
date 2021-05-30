@@ -120,6 +120,7 @@ class Player:
         new_soldier.player_index = self.index
         new_soldier.player = self
         self.armies.append(new_soldier)
+        
 
     def display_asset(self):
         print(f"[Your Asset: Wood - {self.wood} Food - {self.food} Gold - {self.gold}]")
